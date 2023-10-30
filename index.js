@@ -5,7 +5,10 @@ const port = 1039;
 
 var mysql = require('mysql')
 
-const products = require('./prod.js')
+const chaves = require('./chaves.js')
+const dadosLojas = require('./dadosLojas.js')
+
+console.log(chaves)
 
 const connection = mysql.createConnection({
   host: "db-madetex.ccpmwo68291q.us-east-1.rds.amazonaws.com",
@@ -15,14 +18,22 @@ const connection = mysql.createConnection({
 });
 
 
-const query = 'INSERT INTO produtos (nome, descricao, preco, quantidade, categoria, id, loja, desconto, condicao,pontos, pagamento, lista_descricao, galeria, sub_categoria, sub_sub_categoria, madeira, oferta) VALUES ?';
+const queryLoja = 'INSERT INTO lojas (nome, cnpj, endereco, telefone, whatsapp, link_da_pagina, regiao_frete_gratis, cidades_frete_gratis, email, banner, mapa) VALUES ?';
 
-connection.query(query, [products.map(p => [p.nome, p.descricao, p.preco, p.quantidade, p.categoria, p.id, p.loja, p.desconto, p.condicao,
-p.pontos, p.pagamento, p.lista_descricao, p.galeria, p.sub_categoria, p.sub_sub_categoria, p.madeira, p.oferta])], (err, result) => {
+connection.query(queryLoja, [dadosLojas.map(p => [p.nome, p.cnpj, p.endereco, p.telefone, p.whatsapp, p.link_da_pagina, p.regiao_frete_gratis, p.cidades_frete_gratis, p.email,
+p.banner, p.mapa])], (err, result) => {
   if (err) throw err;
-  console.log('Produtos inseridos com sucesso');
+  console.log('lojas inseridas com sucesso');
   connection.end();
 });
+
+const queryChaves = 'INSERT INTO chaves_pesquisa (chave, param, local) VALUES ?';
+
+connection.query(queryChaves, [chaves.map(p => [p.chave, p.param, p.local])], (err, result) => {
+    if (err) throw err;
+    console.log('chaves inseridas com sucesso');
+    connection.end();
+  });
 
 
 app.listen(port, () => {

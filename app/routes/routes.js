@@ -53,6 +53,9 @@ module.exports = function(app){
   app.get('/homeLoja', (req, res) => {
     app.app.controllers.lojasC.getDasosLoja(app, req, res)
   })
+  app.get('/todasAsLojas', (req, res) => {
+    app.app.controllers.lojasC.getTodasAsLojas(app, req, res)
+  })
 
   
   app.post('/adicionarAoCarrinho', (req, res) => {
@@ -108,6 +111,11 @@ module.exports = function(app){
   })
   app.delete('/apagarEndereco/:id/:idUser', (req, res) =>{
     app.app.controllers.userC.apagarEndereco(app, req, res);
+  })
+
+
+  app.get('/TodasAsChaves', (req, res, next) => {
+    app.app.controllers.configC.todasAsChaves(app, req, res, next);
   })
 
 }
