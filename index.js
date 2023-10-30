@@ -1,7 +1,11 @@
 var app = require('./config/server.js')
 const port = 1039;
 
-const mysql = require('mysql');
+
+
+var mysql = require('mysql')
+
+const products = require('./prod.js')
 
 const connection = mysql.createConnection({
   host: "db-madetex.ccpmwo68291q.us-east-1.rds.amazonaws.com",
@@ -10,15 +14,17 @@ const connection = mysql.createConnection({
   database: 'db_madetex',
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err);
-    return;
-  }
-  console.log('Conexão bem-sucedida ao banco de dados MySQL');
-  // Agora você pode realizar operações no banco de dados
+
+const query = 'INSERT INTO produtos_teste (nome, descricao, preco, quantidade, categoria, id, loja, desconto, condicao,pontos, pagamento, lista_descricao, galeria, sub_categoria, sub_sub_categoria, madeira, oferta) VALUES ?';
+
+connection.query(query, [products.map(p => [p.nome, p.descricao, p.preco, p.quantidade, p.categoria, p.id, p.loja, p.desconto, p.condicao,
+p.pontos, p.pagamento, p.lista_descricao, p.galeria, p.sub_categoria, p.sub_sub_categoria, p.madeira, p.oferta])], (err, result) => {
+  if (err) throw err;
+  console.log('Produtos inseridos com sucesso');
+  connection.end();
 });
 
+
 app.listen(port, () => {
-  console.log(`servidor on na ${port}`)
+  console.log(`servidor on na http://localhost:${port}`)
 })
