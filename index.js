@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 });
 
 
-const query = 'INSERT INTO produtos_teste (nome, descricao, preco, quantidade, categoria, id, loja, desconto, condicao,pontos, pagamento, lista_descricao, galeria, sub_categoria, sub_sub_categoria, madeira, oferta) VALUES ?';
+const query = 'INSERT INTO produtos (nome, descricao, preco, quantidade, categoria, id, loja, desconto, condicao,pontos, pagamento, lista_descricao, galeria, sub_categoria, sub_sub_categoria, madeira, oferta) VALUES ?';
 
 connection.query(query, [products.map(p => [p.nome, p.descricao, p.preco, p.quantidade, p.categoria, p.id, p.loja, p.desconto, p.condicao,
 p.pontos, p.pagamento, p.lista_descricao, p.galeria, p.sub_categoria, p.sub_sub_categoria, p.madeira, p.oferta])], (err, result) => {
