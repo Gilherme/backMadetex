@@ -89,11 +89,13 @@ module.exports.getProdutosPopulares = function(app, req, res){
   }); 
 }
 module.exports.getProdutosEmOferta = function(app, req, res){
+  const limite = req.query.limit
+  const limit = parseInt(limite) 
 
   let connection = app.config.dbConnection
   let produtosModel = new app.app.models.produtosM(connection)
 
-  produtosModel.getProdutosEmOferta((err, result) =>{
+  produtosModel.getProdutosEmOferta(limit, (err, result) =>{
     if(err) throw err;
     res.json(result)
   }); 
