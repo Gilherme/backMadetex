@@ -53,31 +53,6 @@ module.exports.getProdutos = function(app, req, res){
     res.json(result)
   }); 
 };
-module.exports.getProdutosPorLoja = function(app, req, res, next){
-  const loja = req.query.loja
-  const categoria = req.query.categoria
-
-  let connection = app.config.dbConnection
-  let produtosModel = new app.app.models.produtosM(connection)
-
-  produtosModel.getProdutosPorLoja(loja, categoria, (err, result) =>{
-    if(err) throw err;
-    res.json(result)
-  }); 
-}
-module.exports.getProdutosPopularesPorLoja = function(app, req, res){
-  const loja = req.query.loja
-  const limit = parseInt(req.query.limit)
-
-  let connection = app.config.dbConnection
-  let produtosModel = new app.app.models.produtosM(connection)
-
-  produtosModel.getProdutosPopularesPorLoja(loja, limit, (err, result) =>{
-    if(err) throw err;
-    res.json(result)
-  }); 
-}
-
 module.exports.getProduto = function(app, req, res){
   const id = req.query.id
 
@@ -114,6 +89,52 @@ module.exports.getProdutosEmOferta = function(app, req, res){
   }); 
 }
 
+module.exports.getProdutosPorLojaEcategoria = function(app, req, res, next){
+  const loja = req.query.loja
+  const categoria = req.query.categoria
+
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getProdutosPorLojaEcategoria(loja, categoria, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+}
+module.exports.getTodosProdutosPorLoja = function(app, req, res, next){
+  const loja = req.query.loja
+
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getTodosProdutosPorLoja(loja, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+}
+module.exports.getProdutosPopularesPorLoja = function(app, req, res){
+  const loja = req.query.loja
+  const limit = parseInt(req.query.limit)
+
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getProdutosPopularesPorLoja(loja, limit, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+}
+module.exports.getProdutosEmOfertaPorLoja = function(app, req, res){
+  const loja = req.query.loja
+
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getProdutosEmOfertaPorLoja(loja, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+}
 module.exports.getProdutosFloja = function(app, req, res){
   const param = req.query.param
   const column = req.query.column
@@ -127,6 +148,7 @@ module.exports.getProdutosFloja = function(app, req, res){
     res.json(result)
   }); 
 }
+
 module.exports.getChavesProdutos = function(app, req, res){
 
   let connection = app.config.dbConnection

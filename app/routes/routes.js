@@ -28,20 +28,14 @@ module.exports = function(app){
     app.app.controllers.produtoC.editarProduto(app, req, res,)
   })
 
+  app.get('/produto', (req, res, next) => {
+    app.app.controllers.produtosC.getProduto(app, req, res, next)
+  })
   app.get('/todosProdutos', (req, res, next) => {
     app.app.controllers.produtosC.getTodosProdutos(app, req, res, next)
   })
   app.get('/produtos', (req, res, next) => {
     app.app.controllers.produtosC.getProdutos(app, req, res, next)
-  })
-  app.get('/produtosPorLoja', (req, res, next) => {
-    app.app.controllers.produtosC.getProdutosPorLoja(app, req, res, next)
-  })
-  app.get('/produtosPopularesPorLoja', (req, res, next) => {
-    app.app.controllers.produtosC.getProdutosPopularesPorLoja(app, req, res, next)
-  })
-  app.get('/produto', (req, res, next) => {
-    app.app.controllers.produtosC.getProduto(app, req, res, next)
   })
   app.get('/produtosPopulares', (req, res, next) => {
     app.app.controllers.produtosC.getProdutosPopulares(app, req, res, next)
@@ -49,9 +43,23 @@ module.exports = function(app){
   app.get('/produtosEmOferta', (req, res, next) =>{
     app.app.controllers.produtosC.getProdutosEmOferta(app, req, res, next)
   })
+
+  app.get('/todosPordutosPorLoja', (req, res) => {
+    app.app.controllers.produtosC.getTodosProdutosPorLoja(app, req, res)
+  })
+  app.get('/produtosPorLoja', (req, res, next) => {
+    app.app.controllers.produtosC.getProdutosPorLojaEcategoria(app, req, res, next)
+  })
+  app.get('/produtosPopularesPorLoja', (req, res, next) => {
+    app.app.controllers.produtosC.getProdutosPopularesPorLoja(app, req, res, next)
+  })
+  app.get('/produtosEmOfertaPorLoja', (req, res, next) => {
+    app.app.controllers.produtosC.getProdutosEmOfertaPorLoja(app, req, res, next)
+  })
   app.get('/produtosFiltroLoja', (req, res, next) => {
     app.app.controllers.produtosC.getProdutosFloja(app, req, res, next)
   })
+
   app.get('/chavesProdutos', (req, res, next) => {
     app.app.controllers.produtosC.getChavesProdutos(app, req, res, next)
   })
