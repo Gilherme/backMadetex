@@ -1,4 +1,5 @@
 module.exports = function(app){
+
   const authMiddleware = app.config.passport.authenticate()
   function autenticacao(req, res, next){
     const token = req.headers.authorization
@@ -13,6 +14,8 @@ module.exports = function(app){
   app.get('/teste', (req, res) => {
     res.json({msg: 'Amigo estou aqui'})
   })
+
+  // Controle
 
   app.delete('/DELproduto/:id', authMiddleware, (req, res) => {
     const id = req.params.id;
@@ -34,6 +37,9 @@ module.exports = function(app){
   app.get('/produtosPorLoja', (req, res, next) => {
     app.app.controllers.produtosC.getProdutosPorLoja(app, req, res, next)
   })
+  app.get('/produtosPopularesPorLoja', (req, res, next) => {
+    app.app.controllers.produtosC.getProdutosPopularesPorLoja(app, req, res, next)
+  })
   app.get('/produto', (req, res, next) => {
     app.app.controllers.produtosC.getProduto(app, req, res, next)
   })
@@ -43,7 +49,7 @@ module.exports = function(app){
   app.get('/produtosEmOferta', (req, res, next) =>{
     app.app.controllers.produtosC.getProdutosEmOferta(app, req, res, next)
   })
-  app.get('/produtosFloja', (req, res, next) => {
+  app.get('/produtosFiltroLoja', (req, res, next) => {
     app.app.controllers.produtosC.getProdutosFloja(app, req, res, next)
   })
   app.get('/chavesProdutos', (req, res, next) => {
@@ -112,7 +118,6 @@ module.exports = function(app){
   app.delete('/apagarEndereco/:id/:idUser', (req, res) =>{
     app.app.controllers.userC.apagarEndereco(app, req, res);
   })
-
 
   app.get('/TodasAsChaves', (req, res, next) => {
     app.app.controllers.configC.todasAsChaves(app, req, res, next);

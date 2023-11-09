@@ -7,6 +7,13 @@ let conMysql = mysql.createConnection({
   database: 'db_madetex',
 });
 
+// let conMysql = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: '1234',
+//     database: 'db_madetex',
+//   });
+
 module.exports = function() {
   return conMysql;
 };

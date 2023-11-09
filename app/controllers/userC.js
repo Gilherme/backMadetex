@@ -15,21 +15,6 @@ function existeOuNao(valor, msg, idEl) {
 }
 
 
-module.exports.validaToken = function(app, req, res){
-  const userData = req.body || null
-
-  try{
-    if(userData) {
-      const token = jwt.decode(userData.token, chaveSecreta)
-      if(new Date(token.exp * 1000) > new Date()){
-        return res.send(true)
-      }
-    }
-  }catch(e){
-    // problema com token
-  }
-  res.send(false)
-}
 module.exports.cadastrarUsuario  = function(app, req, res){
   const usuario = req.body;
   const email = req.body.email
@@ -38,10 +23,10 @@ module.exports.cadastrarUsuario  = function(app, req, res){
   const cadastroModel = new app.app.models.userM(connection)
 
   try{
-    existeOuNao(usuario.nome, 'Nome não informado');
-    existeOuNao(usuario.email, 'Email não informado');
-    existeOuNao(usuario.telefone, 'Telefone celular não informado');
-    existeOuNao(usuario.senha, 'Senha não informada');
+    existeOuNao(usuario.nome, 'Nome não informado', '#nome');
+    existeOuNao(usuario.email, 'Email não informado', "email");
+    existeOuNao(usuario.telefone, 'Telefone celular não informado', "#telefone");
+    existeOuNao(usuario.senha, 'Senha não informada', "#senha");
   }catch(msg){
     return res.status(400).json(msg)
   }
@@ -56,11 +41,9 @@ module.exports.cadastrarUsuario  = function(app, req, res){
 
     const count = result[0].count;
     if (count > 0){
-      res.status(400).json({ msg: 'Usuário já existe' });
+      res.status(400).json({ msg: 'Email já cadastrado'});
     }
     else{
-      console.log('Usuário não existe');
-
       cadastroModel.cadastrarUser(usuario, function(err, result) {
           if(err){
               res.json({mgs: 'Erro ao cadastrar usuario' + err});
@@ -103,7 +86,7 @@ module.exports.logar = async function(app, req, res){
         email: result[0].email,
         admin: result[0].admin,
         iat: agr,
-        exp: agr + (60 * 60 * 24 * 3)
+        exp: agr + (60 * 60 * 24 * 7)
       }
 
       res.json({

@@ -65,6 +65,19 @@ module.exports.getProdutosPorLoja = function(app, req, res, next){
     res.json(result)
   }); 
 }
+module.exports.getProdutosPopularesPorLoja = function(app, req, res){
+  const loja = req.query.loja
+  const limit = parseInt(req.query.limit)
+
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getProdutosPopularesPorLoja(loja, limit, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+}
+
 module.exports.getProduto = function(app, req, res){
   const id = req.query.id
 
