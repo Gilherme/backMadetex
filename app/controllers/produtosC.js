@@ -92,11 +92,12 @@ module.exports.getProdutosEmOferta = function(app, req, res){
 module.exports.getProdutosPorLojaEcategoria = function(app, req, res, next){
   const loja = req.query.loja
   const categoria = req.query.categoria
+  const limit = parseInt(req.query.limit)
 
   let connection = app.config.dbConnection
   let produtosModel = new app.app.models.produtosM(connection)
 
-  produtosModel.getProdutosPorLojaEcategoria(loja, categoria, (err, result) =>{
+  produtosModel.getProdutosPorLojaEcategoria(loja, categoria, limit, (err, result) =>{
     if(err) throw err;
     res.json(result)
   }); 
@@ -126,11 +127,12 @@ module.exports.getProdutosPopularesPorLoja = function(app, req, res){
 }
 module.exports.getProdutosEmOfertaPorLoja = function(app, req, res){
   const loja = req.query.loja
+  const limit = parseInt(req.query.limit)
 
   let connection = app.config.dbConnection
   let produtosModel = new app.app.models.produtosM(connection)
 
-  produtosModel.getProdutosEmOfertaPorLoja(loja, (err, result) =>{
+  produtosModel.getProdutosEmOfertaPorLoja(loja, limit, (err, result) =>{
     if(err) throw err;
     res.json(result)
   }); 

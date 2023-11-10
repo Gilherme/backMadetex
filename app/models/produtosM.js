@@ -36,14 +36,14 @@ prod.prototype.getProdutosEmOferta = function (limit, callback){
 prod.prototype.getTodosProdutosPorLoja = function(loja, callback){
   this._connection.query(`select * from produtos where loja = ?`, [loja], callback)
 }
-prod.prototype.getProdutosPorLojaEcategoria = function (loja, categoria, callback){
-  this._connection.query(`select * from produtos WHERE loja = ? and categoria = ?`, [loja, categoria], callback)
+prod.prototype.getProdutosPorLojaEcategoria = function (loja, categoria, limit, callback){
+  this._connection.query(`select * from produtos WHERE loja = ? and categoria = ? limit ?`, [loja, categoria, limit], callback)
 }
 prod.prototype.getProdutosPopularesPorLoja = function (loja, limit, callback){
   this._connection.query(`SELECT * FROM produtos WHERE loja = ? ORDER BY pontos DESC LIMIT ?`, [loja, limit], callback)
 }
-prod.prototype.getProdutosEmOfertaPorLoja = function (loja, callback){
-  this._connection.query(`SELECT * FROM produtos WHERE loja = ? AND oferta = 1`, [loja], callback)
+prod.prototype.getProdutosEmOfertaPorLoja = function (loja, limit, callback){
+  this._connection.query(`SELECT * FROM produtos WHERE loja = ? AND oferta = 1 limit ?`, [loja, limit], callback)
 }
 prod.prototype.getProdutosFloja = function (param, column, loja, callback){
   this._connection.query(`select * from produtos WHERE ?? = ? and loja = ?`, [column, param, loja], callback)
