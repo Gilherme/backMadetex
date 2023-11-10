@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
 
+AWS.config.update({ region: 'us-east-1' });
+
 // Configurar automaticamente com as credenciais associadas à role
 const ses = new AWS.SES();
 
