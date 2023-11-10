@@ -1,6 +1,3 @@
-var app = require('./config/server.js')
-const port = 1039;
-
 const AWS = require('aws-sdk');
 
 // Configurar automaticamente com as credenciais associadas à role
@@ -32,7 +29,3 @@ ses.sendEmail(params, (err, data) => {
     console.log('E-mail enviado com sucesso:', data);
   }
 });
-
-app.listen(port, () => {
-  console.log(`servidor on na http://localhost:${port}`)
-})
