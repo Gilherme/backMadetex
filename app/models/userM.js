@@ -2,8 +2,8 @@ function user(connection){
   this._connection = connection
 }
 
-user.prototype.cadastrarUser = function (produto, callback) {
-  this._connection.query('insert into usuarios set ?', produto, callback)
+user.prototype.cadastrarUser = function (usuario, callback) {
+  this._connection.query('insert into usuarios set ?', usuario, callback)
 }
 user.prototype.verificarUser = function (email, callback) {
   this._connection.query('SELECT COUNT(*) AS count FROM usuarios WHERE email = ?', [email], callback)

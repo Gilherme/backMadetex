@@ -24,10 +24,10 @@ const params = {
 };
 
 // Enviar o e-mail
-ses.sendEmail(params, (err, data) => {
-  if (err) {
-    console.error(err.message);
-  } else {
-    console.log('E-mail enviado com sucesso:', data);
-  }
-});
+// ses.sendEmail(params, (err, data) => {
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     console.log('E-mail enviado com sucesso:', data);
+//   }
+// });

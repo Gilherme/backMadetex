@@ -1,12 +1,32 @@
 const chaveSecreta = require('../../.env');
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt')
+const crypto = require('crypto');
 // guibarreto12@gmail.com 123456
+
+
+// Função para gerar o token
+function generateToken() {
+  return crypto.randomBytes(20).toString('hex'); // Gera um token aleatório
+}
+
+// Cria o link de confirmação com um token e informações adicionais
+function createConfirmationLink(userId) {
+  const token = generateToken();
+  const confirmationLink = `https://seusite.com/confirm?token=${token}&userId=${userId}`;
+  return confirmationLink;
+}
+
+// Exemplo de uso
+const userId = 123; // ID do usuário
+const confirmationLink = createConfirmationLink(userId);
+console.log(confirmationLink);
 
 const encrypitarSenha = senha => {
   const sal = bcrypt.genSaltSync(10)
   return bcrypt.hashSync(senha, sal)
 }
+
 function existeOuNao(valor, msg, idEl) {
   const resposta = {}; resposta.msg = msg; resposta.el = idEl || 0
   if (!valor || (typeof valor === 'string' && !valor.trim())) {
@@ -17,7 +37,6 @@ function existeOuNao(valor, msg, idEl) {
 
 module.exports.cadastrarUsuario  = function(app, req, res){
   const usuario = req.body;
-  const email = req.body.email
 
   const connection = app.config.dbConnection
   const cadastroModel = new app.app.models.userM(connection)
@@ -33,7 +52,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
 
   usuario.senha = encrypitarSenha(usuario.senha)
 
-  cadastroModel.verificarUser(email, function(err, result){
+  cadastroModel.verificarUser(usuario.email, function(err, result){
     if(err){
       console.log('Erro ao verificar usuário: ' + err);
       return res.status(500).json({ msg: 'Erro interno' });
@@ -44,6 +63,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
       res.status(400).json({ msg: 'Email já cadastrado'});
     }
     else{
+      
       cadastroModel.cadastrarUser(usuario, function(err, result) {
           if(err){
               res.json({mgs: 'Erro ao cadastrar usuario' + err});
@@ -51,7 +71,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
           else{
             res.json({msg: 'Usuario cadastrado com sucesso'})
           }   
-        })
+      })
     }
   }) 
 }
