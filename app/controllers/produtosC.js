@@ -30,6 +30,21 @@ module.exports.editarProduto = function(app, req, res){
     }
   });
 }
+module.exports.apagarProduto = function(app, req, res){
+  const id = req.params.id;
+
+  let connection = app.config.dbConnection
+  let controleModel = new app.app.models.produtosM(connection)
+
+  controleModel.apagarProduto(id, (err, result) => {
+    if (err) {
+      console.error('Erro ao apagar produto:', err);
+      res.status(500).json({ error: 'Erro ao apagar produto.' });
+    } else {
+      res.status(200).json({ msg: "produto apagado"});
+    }
+  });
+}
 module.exports.getTodosProdutos = function(app, req, res){
 
   let connection = app.config.dbConnection

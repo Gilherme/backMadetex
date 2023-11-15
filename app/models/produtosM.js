@@ -8,7 +8,7 @@ prod.prototype.editarProduto = function(id, produto, callback){
 prod.prototype.inserirProduto = function (produto, callback) {
   this._connection.query('insert into produtos set ?', produto, callback)
 }
-prod.prototype.deleteProduto = function(id, callback){
+prod.prototype.apagarProduto = function(id, callback){
   this._connection.query('delete from produtos where id = ?', [id], callback)
 }
 

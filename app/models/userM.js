@@ -14,8 +14,14 @@ user.prototype.verificarUsuario = function (email, callback) {
 user.prototype.usuarioPorId = function (id, callback){
   this._connection.query('SELECT * FROM usuarios WHERE id = ?', [id], callback)
 }
+user.prototype.userPorEmail = function (email, callback){
+  this._connection.query('SELECT * FROM usuarios WHERE email = ?', [email], callback)
+}
 user.prototype.atualizarUsuario = function (userAtualizado, id, callback){
   this._connection.query( `UPDATE usuarios SET ? WHERE id = ?`, [userAtualizado, id], callback)
+}
+user.prototype.alterarSenha = function (senha, email, id, callback){
+  this._connection.query( `UPDATE usuarios SET senha = ? WHERE email = ?`, [senha, email], callback)
 }
 
 user.prototype.addAoCarrinho = function(produto, callback) {

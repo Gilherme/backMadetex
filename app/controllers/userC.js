@@ -1,26 +1,80 @@
 const chaveSecreta = require('../../.env');
 const jwt = require('jwt-simple');
+const AWS = require('aws-sdk');
 const bcrypt = require('bcrypt')
 const crypto = require('crypto');
 // guibarreto12@gmail.com 123456
 
+AWS.config.update({ region: 'us-east-1' });
 
-// Função para gerar o token
+
+function enviarEmailDeVerificacao(email, token){
+  const link = `https://api.madetex.com.br/confirmarEmail?token=${token}&email=${email}`
+  // const link = `http://localhost:1039/confirmarEmail?token=${token}&email=${email}`
+  const ses = new AWS.SES();
+
+  const params = {
+    Destination: {
+      ToAddresses: [`${email}`],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: `Ficamos felizes ter você como cliente!!
+          click no link: ${link} para verificar seu email` ,
+        },
+      },
+      Subject: {
+        Data: 'Madetex - verificação de email',
+      },
+    },
+    Source: 'guilherme@madetex.com.br',
+  };
+  
+  ses.sendEmail(params, (err, data) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+      console.log('E-mail enviado com sucesso:', data);
+    }
+  });
+}
+
+function enviarEmailDerecuperacao(email, token){
+  const link = `https://www.madetex.com.br/src/views/user/alterarSenhaTwo.html/?token=${token}&email=${email}`
+  // const link = `http://localhost:3000/src/views/user/alterarSenhaTwo.html?token=${token}&email=${email}`
+  const ses = new AWS.SES();
+
+  const params = {
+    Destination: {
+      ToAddresses: [`${email}`],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: `Clique no link abaixo para recuperar sua conta.
+          link: ${link}`,
+        },
+      },
+      Subject: {
+        Data: 'Madetex - Recuperar conta',
+      },
+    },
+    Source: 'guilherme@madetex.com.br',
+  };
+  
+  ses.sendEmail(params, (err, data) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+      console.log('E-mail enviado com sucesso:', data);
+    }
+  });
+}
+
 function generateToken() {
   return crypto.randomBytes(20).toString('hex'); // Gera um token aleatório
 }
-
-// Cria o link de confirmação com um token e informações adicionais
-function createConfirmationLink(userId) {
-  const token = generateToken();
-  const confirmationLink = `https://seusite.com/confirm?token=${token}&userId=${userId}`;
-  return confirmationLink;
-}
-
-// Exemplo de uso
-const userId = 123; // ID do usuário
-const confirmationLink = createConfirmationLink(userId);
-console.log(confirmationLink);
 
 const encrypitarSenha = senha => {
   const sal = bcrypt.genSaltSync(10)
@@ -34,7 +88,6 @@ function existeOuNao(valor, msg, idEl) {
   }
 }
 
-
 module.exports.cadastrarUsuario  = function(app, req, res){
   const usuario = req.body;
 
@@ -43,7 +96,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
 
   try{
     existeOuNao(usuario.nome, 'Nome não informado', '#nome');
-    existeOuNao(usuario.email, 'Email não informado', "email");
+    existeOuNao(usuario.email, 'Email não informado', "#email");
     existeOuNao(usuario.telefone, 'Telefone celular não informado', "#telefone");
     existeOuNao(usuario.senha, 'Senha não informada', "#senha");
   }catch(msg){
@@ -51,6 +104,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
   }
 
   usuario.senha = encrypitarSenha(usuario.senha)
+  usuario.token = generateToken();
 
   cadastroModel.verificarUser(usuario.email, function(err, result){
     if(err){
@@ -59,21 +113,88 @@ module.exports.cadastrarUsuario  = function(app, req, res){
     }
 
     const count = result[0].count;
+   
     if (count > 0){
-      res.status(400).json({ msg: 'Email já cadastrado'});
+      res.status(400).json({ msg: 'Email já cadastrado', email: "email"});
     }
     else{
-      
+      usuario.admin = 0
       cadastroModel.cadastrarUser(usuario, function(err, result) {
           if(err){
+              console.log(err)
               res.json({mgs: 'Erro ao cadastrar usuario' + err});
           }
           else{
-            res.json({msg: 'Usuario cadastrado com sucesso'})
+            res.status(200).json({msg: 'Usuario cadastrado com sucesso'})
+            enviarEmailDeVerificacao(usuario.email, usuario.token)
           }   
       })
+     
     }
   }) 
+}
+module.exports.confirmarEmail = function(app, req, res){
+  const email = req.query.email;
+  const token = req.query.token;
+
+  let connection = app.config.dbConnection;
+  let userModel = new app.app.models.userM(connection)
+
+  userModel.userPorEmail(email, function(err, result){
+    if(err){
+      console.log(err);
+    } 
+    else{
+      if(email == result[0].email && token == result[0].token){
+        res.write("Email confirmado com sucesso!")
+        res.end();
+      }
+    }
+  })
+}
+module.exports.recuperacaoDeConta = function(app, req, res){
+  const email = req.query.email;
+
+  let connection = app.config.dbConnection;
+  let userModel = new app.app.models.userM(connection)
+
+  userModel.userPorEmail(email, function(err, result){
+    if(err || !result || result.length === 0){
+        res.status(404).json({msg: "Email não encontrado"});
+    } 
+    else{
+        const token = result[0].token;
+        enviarEmailDerecuperacao(email, token);
+        res.status(200).json({msg: 'Email enviado com sucesso!'});
+    }
+  });
+}
+module.exports.alterarSenha = function(app, req, res){
+  const user = req.body
+
+  const connection = app.config.dbConnection
+  const cadastroModel = new app.app.models.userM(connection)
+
+  cadastroModel.userPorEmail(user.email, function(err, result){
+
+    if(err || !result || result.length === 0){
+      console.log('Erro ao verificar usuário: ' + err);
+      return res.status(500).json({ msg: 'Erro interno' });
+    }
+    else if(user.token === result[0].token){
+      user.senha = encrypitarSenha(user.senha)
+      
+      cadastroModel.alterarSenha(user.senha, user.email, function(err, result){
+        if(err){
+          return res.status(500).json({ msg: 'Erro ao alterar senha no banco de dados' });
+        }
+        else{
+          return res.status(200).json({msg: 'senha alterada com sucesso'})
+        }
+      })
+    }
+    res.end()
+  })
 }
 module.exports.logar = async function(app, req, res){
   if(!req.body.email || !req.body.senha){
@@ -88,14 +209,13 @@ module.exports.logar = async function(app, req, res){
       console.log('Erro ao verificar usuário: ' + err);
       return res.status(500).json({ msg: 'Erro interno' });
     }
-   
-    if (result.length === 0){
+    if(result.length === 0){
       res.status(400).json({ msg: 'Email não cadastrado' });
     }
     else{
       const deuMath = bcrypt.compareSync(req.body.senha, result[0].senha)
       if(!deuMath){
-        return res.status(401).json({msg: 'Email ou senha inválida'})
+        return res.status(401).json({msg: 'senha inválida'})
       }
       
       const agr = Math.floor(Date.now() / 1000)
@@ -240,7 +360,6 @@ module.exports.ApagarItemNoCar = function(app, req, res){
   })
 }
 
-
 module.exports.adicionarEndereco = function(app, req, res){
   const endereco = req.body
 
@@ -325,7 +444,6 @@ module.exports.apagarEndereco = function(app, req, res){
     res.json({msg: "Endereço excluido com sucesso"})
   })
 }
-
 
 function precoFrete(loja, city) {
   const campoLimpo = ['Jundiaí', 'Campo Limpo Paulista', 'Várzea Paulista', 'Jarinu']

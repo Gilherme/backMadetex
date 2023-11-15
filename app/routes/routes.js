@@ -1,6 +1,33 @@
-module.exports = function(app){
+const chaveSecreta = 'suaChaveSecreta';
+const jwt = require('jwt-simple');
 
-  const authMiddleware = app.config.passport.authenticate()
+const autenticacaoMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ msg: 'Token não fornecido' });
+  }
+
+  try {
+    const payload = jwt.verify(token, chaveSecreta);
+    req.user = payload; // Adiciona o payload ao objeto de requisição para ser usado posteriormente
+    next();
+  } catch (error) {
+    return res.status(401).json({ msg: 'Token inválido' });
+  }
+};
+
+const autorizacaoMiddleware = (req, res, next) => {
+  const user = req.user;
+
+  // Verifica se o usuário é um administrador (adicione sua lógica de verificação aqui)
+  if (!user || !user.isAdmin) {
+    return res.status(403).json({ msg: 'Sem permissão para realizar esta ação' });
+  }
+
+  next();
+};
+
+
   function autenticacao(req, res, next){
     const token = req.headers.authorization
 
@@ -10,6 +37,7 @@ module.exports = function(app){
       res.status(401).json({msg: "Acesso não autorizado"})
     }
   }  
+module.exports = function(app){
 
   app.get('/teste', (req, res) => {
     res.json({msg: 'Amigo estou aqui'})
@@ -17,15 +45,14 @@ module.exports = function(app){
 
   // Controle
 
-  app.delete('/DELproduto/:id', authMiddleware, (req, res) => {
-    const id = req.params.id;
-    app.app.controllers.produtosC.delProduto(app, req, res, id)
+  app.delete('/DELproduto/:id', autenticacao, (req, res, next) => {
+    app.app.controllers.produtosC.apagarProduto(app, req, res, id)
   })
-  app.post('/adicionarProduto', authMiddleware, (req, res) => {
-    app.app.controllers.produtoC.adicionarProduto(app, req, res);
+  app.post('/adicionarProduto', autenticacao, (req, res, next) => {
+    app.app.controllers.produtosC.adicionarProduto(app, req, res);
   })
-  app.put('/editarProduto/:id', autenticacao, (req, res) => {
-    app.app.controllers.produtoC.editarProduto(app, req, res,)
+  app.put('/editarProduto/:id', autenticacao, (req, res, next) => {
+    app.app.controllers.produtosC.editarProduto(app, req, res,)
   })
 
   app.get('/produto', (req, res, next) => {
@@ -110,6 +137,16 @@ module.exports = function(app){
   app.post('/cadastrarUsuario', (req, res) => {
     app.app.controllers.userC.cadastrarUsuario(app, req, res);
   })
+  app.get('/confirmarEmail', (req, res) => {
+    app.app.controllers.userC.confirmarEmail(app, req, res);
+  })
+  app.get('/recuperacaoDeConta', (req, res) => {
+    app.app.controllers.userC.recuperacaoDeConta(app, req, res);
+  })
+  app.put('/alterarSenha', (req, res) => {
+    app.app.controllers.userC.alterarSenha(app, req, res);
+  })
+  
 
   app.post('/adicionarEndereco', (req, res) => {
     app.app.controllers.userC.adicionarEndereco(app, req, res);
