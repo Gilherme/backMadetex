@@ -9,7 +9,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
   
 consign()
-  .include('config/passport.js')
   .include('app/routes')
   .then('config/dbConnection.js')
   .then('app/models')

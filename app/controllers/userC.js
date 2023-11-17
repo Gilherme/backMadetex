@@ -9,8 +9,8 @@ AWS.config.update({ region: 'us-east-1' });
 
 
 function enviarEmailDeVerificacao(email, token){
-  const link = `https://api.madetex.com.br/confirmarEmail?token=${token}&email=${email}`
-  // const link = `http://localhost:1039/confirmarEmail?token=${token}&email=${email}`
+  // const link = `https://api.madetex.com.br/confirmarEmail?token=${token}&email=${email}`
+  const link = `http://localhost:1039/confirmarEmail?token=${token}&email=${email}`
   const ses = new AWS.SES();
 
   const params = {
@@ -41,8 +41,8 @@ function enviarEmailDeVerificacao(email, token){
 }
 
 function enviarEmailDerecuperacao(email, token){
-  const link = `https://www.madetex.com.br/src/views/user/alterarSenhaTwo.html/?token=${token}&email=${email}`
-  // const link = `http://localhost:3000/src/views/user/alterarSenhaTwo.html?token=${token}&email=${email}`
+  // const link = `https://www.madetex.com.br/src/views/user/alterarSenhaTwo.html/?token=${token}&email=${email}`
+  const link = `http://localhost:3000/src/views/user/alterarSenhaTwo.html?token=${token}&email=${email}`
   const ses = new AWS.SES();
 
   const params = {

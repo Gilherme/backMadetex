@@ -68,6 +68,19 @@ module.exports.getProdutos = function(app, req, res){
     res.json(result)
   }); 
 };
+module.exports.getProdutosExibicao = function(app, req, res){
+  const param = req.query.param
+  const column = req.query.column
+  const limit = parseInt(req.query.limit)
+ 
+  let connection = app.config.dbConnection
+  let produtosModel = new app.app.models.produtosM(connection)
+
+  produtosModel.getProdutosExibicao(param, column, limit, (err, result) =>{
+    if(err) throw err;
+    res.json(result)
+  }); 
+};
 module.exports.getProduto = function(app, req, res){
   const id = req.query.id
 
