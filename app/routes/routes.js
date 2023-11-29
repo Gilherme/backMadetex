@@ -91,13 +91,13 @@ module.exports = function(app){
   })
 
   
-  app.post('/adicionarAoCarrinho', (req, res) => {
+  app.post('/adicionarAoCarrinho', autenticacao, (req, res) => {
     app.app.controllers.userC.adicionarAoCarrinho(app, req, res);
   })
-  app.delete('/apagarItemNoCarrinho/:id', (req, res) =>{
+  app.delete('/apagarItemNoCarrinho/:id', autenticacao, (req, res) =>{
     app.app.controllers.userC.ApagarItemNoCar(app, req, res);
   })
-  app.put('/editarItemNoCarrinho/:id', (req, res) =>{
+  app.put('/editarItemNoCarrinho/:id', autenticacao, (req, res) =>{
     app.app.controllers.userC.editarItemNoCar(app, req, res);
   })
   app.get('/qtdDeProdutosNoCarrinho', (req, res) => {
@@ -120,7 +120,7 @@ module.exports = function(app){
   app.post('/login', (req, res) => {
     app.app.controllers.userC.logar(app, req, res);
   })
-  app.put('/editarUsuario', (req, res) => {
+  app.put('/editarUsuario', autorizacao, (req, res) => {
     app.app.controllers.userC.editarUsuario(app, req, res);
   })
   app.post('/cadastrarUsuario', (req, res) => {
@@ -137,19 +137,19 @@ module.exports = function(app){
   })
   
 
-  app.post('/adicionarEndereco', (req, res) => {
+  app.post('/adicionarEndereco', autenticacao, (req, res) => {
     app.app.controllers.userC.adicionarEndereco(app, req, res);
   })
-  app.get('/enderecosUser', (req, res) => {
+  app.get('/enderecosUser', autenticacao, (req, res) => {
     app.app.controllers.userC.getEnderecosPorId(app, req, res);
   })
-  app.get('/enderecosUserPelosIds', (req, res) => {
+  app.get('/enderecosUserPelosIds', autenticacao, (req, res) => {
     app.app.controllers.userC.getEnderecosPorIds(app, req, res);
   })
-  app.put('/editarEndereco/:id', (req, res) => {
+  app.put('/editarEndereco/:id', autenticacao, (req, res) => {
     app.app.controllers.userC.editarEndereco(app, req, res);
   })
-  app.delete('/apagarEndereco/:id/:idUser', (req, res) =>{
+  app.delete('/apagarEndereco/:id/:idUser', autenticacao, (req, res) =>{
     app.app.controllers.userC.apagarEndereco(app, req, res);
   })
 
@@ -157,5 +157,8 @@ module.exports = function(app){
     app.app.controllers.configC.todasAsChaves(app, req, res, next);
   })
 
+  app.post('/process_payment', autenticacao, (req, res, next) => {
+    app.app.controllers.pag.processarPagamento(app, req, res, next)
+  })
 }
 
