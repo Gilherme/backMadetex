@@ -27,7 +27,7 @@ function enviarEmailDeVerificacao(email, token){
         Data: 'Madetex - verificação de email',
       },
     },
-    Source: 'guilherme@madetex.com.br',
+    Source: 'madetex@madetex.com.br',
   };
   
   ses.sendEmail(params, (err, data) => {
@@ -58,7 +58,7 @@ function enviarEmailDerecuperacao(email, token){
         Data: 'Madetex - Recuperar conta',
       },
     },
-    Source: 'guilherme@madetex.com.br',
+    Source: 'madetex@madetex.com.br',
   };
   
   ses.sendEmail(params, (err, data) => {
@@ -280,12 +280,14 @@ module.exports.editarUsuario = function(app, req, res){
 
 module.exports.adicionarAoCarrinho  = function(app, req, res){ 
   let produto = req.body
+  console.log(produto)
 
   let connection = app.config.dbConnection
   let carrinhoModel = new app.app.models.userM(connection)
 
   carrinhoModel.addAoCarrinho(produto, function(err, result) {
     if(err){
+        console.log(err)
         res.json({mgs: 'erro ao adicionar ao carrinho' + err});
     }
     else{

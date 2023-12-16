@@ -31,7 +31,7 @@ user.prototype.qtdProdutosNoCarrinho = function(usuarioId, callback) {
   this._connection.query('SELECT COUNT(*) FROM carrinho WHERE usuario_ID = ?', [usuarioId], callback)
 }
 user.prototype.produtosNoCarrinho = function(usuarioId, callback){
-  this._connection.query('SELECT p.nome, p.preco, p.loja, p.desconto, p.galeria, c.quantidade, p.madeira, c.pecas, c.id, c.produto_ID, c.aparelhada FROM produtos p JOIN carrinho c ON p.id = c.produto_ID WHERE c.usuario_ID = ?', [usuarioId], callback)
+  this._connection.query('SELECT * from  carrinho where usuario_ID = ?', [usuarioId], callback)
 }
 user.prototype.apagarItemNoCarrinho = function(id, callback){
   this._connection.query('DELETE FROM carrinho WHERE id = ?', [id], callback)
