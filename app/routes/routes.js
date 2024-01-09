@@ -110,6 +110,16 @@ module.exports = function(app){
     app.app.controllers.userC.getProdutosNoCarComFrete(app, req, res);
   })
 
+  app.post('/criarPedido', autenticacao, (req, res) => {
+    app.app.controllers.pedidosC.criarPedido(app, req, res);
+  })
+  app.get('/getPedido', autenticacao, (req, res) => {
+    app.app.controllers.pedidosC.getPedido(app, req, res);
+  })
+  app.put('/editarPedido/:id', autenticacao, (req, res) => {
+    app.app.controllers.pedidosC.editarPedido(app, req, res);
+  })
+
   app.post('/enviarMensagem', (req, res) => {
     app.app.controllers.contatoC.enviarMensagem(app, req, res);
   })

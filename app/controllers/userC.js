@@ -280,7 +280,6 @@ module.exports.editarUsuario = function(app, req, res){
 
 module.exports.adicionarAoCarrinho  = function(app, req, res){ 
   let produto = req.body
-  console.log(produto)
 
   let connection = app.config.dbConnection
   let carrinhoModel = new app.app.models.userM(connection)
