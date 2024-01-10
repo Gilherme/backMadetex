@@ -7,12 +7,12 @@ module.exports.criarPedido =  function(app, req, res){
   const pedidosModel = new app.app.models.pedidosM(connection)
   const userModel = new app.app.models.userM(connection)
 
-  userModel.produtosNoCarrinho(idUser, async (err, result) => {
+  userModel.produtosNoCarrinho(idUser, (err, result) => {
     if(err){
       console.log('erro ao pegar produto no carrinho, produtosC - linha 12' + err)
       res.json({msg: 'erro ao pegar produto no carrinho, produtosC - linha 12' + err })
     }else{
-      const produtos = await result.json()
+      const produtos = result
       console.log('linha 15' + produtos)
       const pedido = {
         id_user: idUser,
