@@ -13,21 +13,17 @@ module.exports.criarPedido =  function(app, req, res){
       console.log('erro ao pegar produto no carrinho, produtosC - linha 12' + err)
       res.json({msg: 'erro ao pegar produto no carrinho, produtosC - linha 12' + err })
     }else{
-      const produtos = result
-      console.log('linha 15' + produtos)
       const pedido = {
         id_user: idUser,
         id_endereco: idEndereco,
         status_pagamento: "pendente"
       }
-      console.log('linha 21' + pedido)
       pedidosModel.criarPedido(pedido, (err, result ) => {
-        console.log('linha 21' + pedido)
         if(err){
           res.json({mgs: 'erro ao criar pedido' + err});
         }
         else{
-          res.json({msg: 'pedido criado com sucesso', pedido: pedido})
+          res.status(200).json({msg: 'pedido criado com sucesso', pedido: pedido})
         }  
       })
     }
@@ -36,7 +32,6 @@ module.exports.criarPedido =  function(app, req, res){
 
 module.exports.getPedido = function(app, req, res){
   const idUser = req.query.idUser
-  const id = req.query.id
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)

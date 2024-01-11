@@ -11,7 +11,7 @@ pedido.prototype.getPedido = function(idUser, id, callback) {
 }
 
 pedido.prototype.editarPedido = function(id, pedido, callback){
-  this._connection.query('UPDATE pedido SET ? WHERE id = ?', [pedido, id], callback)
+  this._connection.query('UPDATE pedidos SET ? WHERE id = ?', [pedido, id], callback)
 }
 
 module.exports = function(){
