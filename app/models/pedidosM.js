@@ -3,7 +3,7 @@ function pedido(connection){
 }
 
 pedido.prototype.criarPedido = function(pedido, callback) {
-  this._connection.query('insert into produtos set ?', pedido, callback)
+  this._connection.query('insert into pedidos set ?', pedido, callback)
 }
 
 pedido.prototype.getPedido = function(idUser, id, callback) {

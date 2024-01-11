@@ -3,6 +3,7 @@ module.exports.criarPedido =  function(app, req, res){
   const idUser = ids.idUser
   const idEndereco = ids.idEndereco
 
+  console.log(ids)
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
   const userModel = new app.app.models.userM(connection)
