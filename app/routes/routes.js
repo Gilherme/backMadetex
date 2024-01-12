@@ -116,6 +116,9 @@ module.exports = function(app){
   app.get('/getPedido', autenticacao, (req, res, next) => {
     app.app.controllers.pedidosC.getPedido(app, req, res);
   })
+  app.get('/getPedidoMaisRecente', autenticacao, (req, res, next) => {
+    app.app.controllers.pedidosC.getPedidoMaisRecente(app, req, res);
+  })
   app.put('/editarPedido/:id', autenticacao, (req, res) => {
     app.app.controllers.pedidosC.editarPedido(app, req, res);
   })
