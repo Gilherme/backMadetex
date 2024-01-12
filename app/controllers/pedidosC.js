@@ -3,7 +3,6 @@ module.exports.criarPedido =  function(app, req, res){
   const idUser = ids.idUser
   const idEndereco = ids.idEndereco
 
-  console.log(ids)
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
   const userModel = new app.app.models.userM(connection)
@@ -23,7 +22,7 @@ module.exports.criarPedido =  function(app, req, res){
           res.json({mgs: 'erro ao criar pedido' + err});
         }
         else{
-          res.status(200).json({msg: 'pedido criado com sucesso', pedido: pedido})
+          res.json({msg: 'pedido criado com sucesso'})
         }  
       })
     }
