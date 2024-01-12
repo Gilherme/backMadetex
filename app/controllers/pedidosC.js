@@ -37,10 +37,10 @@ module.exports.getPedido = function(app, req, res){
   
   pedidosModel.getPedido(idUser, (err, result) => {
     if(err){
-      console.log(err)
       res.json({msg: "erro ao encontrar pedido", "erro": err})
-    } 
+    }else{
       res.json(result)
+    }
   })
 }
 
