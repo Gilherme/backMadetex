@@ -44,14 +44,14 @@ module.exports.getPedido = function(app, req, res){
   })
 }
 
-module.exports.getPedidoMaisRecente = function(app, req, res){
+module.exports.getPedidosMaisRecentes = function(app, req, res){
   const idUser = req.query.idUser
   const limit = parseInt(req.query.limit)
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
   
-  pedidosModel.getPedidoMaisRecente(idUser, limit, (err, result) => {
+  pedidosModel.getPedidosMaisRecentes(idUser, limit, (err, result) => {
     if(err){
       res.json({msg: "erro ao encontrar pedidos", "erro": err})
     }else{

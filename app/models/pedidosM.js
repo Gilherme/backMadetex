@@ -10,8 +10,8 @@ pedido.prototype.getPedido = function(idUser, callback) {
   this._connection.query('SELECT * FROM pedidos WHERE id_user = ?', [idUser], callback);
 }
 
-pedido.prototype.getPedidoMaisRecente = function(idUser, limit, callback) {
-  this._connection.query('SELECT * FROM pedidos WHERE id_user = ? ORDER BY data_pedido DESC limit = ?', [idUser, limit], callback);
+pedido.prototype.getPedidosMaisRecentes = function(idUser, limit, callback) {
+  this._connection.query('SELECT * FROM pedidos WHERE id_user = ? ORDER BY data_pedido DESC limit ?', [idUser, limit], callback);
 }
 
 pedido.prototype.editarPedido = function(id, pedido, callback){
