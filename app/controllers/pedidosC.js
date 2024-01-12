@@ -35,7 +35,7 @@ module.exports.getPedido = function(app, req, res){
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
   
-  pedidosModel.getPedido(idUser, id, (err, result) => {
+  pedidosModel.getPedido(idUser, (err, result) => {
     if(err){
       console.log(err)
       res.json({msg: "erro ao encontrar pedido", "erro": err})
