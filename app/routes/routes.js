@@ -113,14 +113,18 @@ module.exports = function(app){
   app.post('/criarPedido', autenticacao, (req, res) => {
     app.app.controllers.pedidosC.criarPedido(app, req, res);
   })
+  app.put('/editarPedido/:id', autenticacao, (req, res) => {
+    app.app.controllers.pedidosC.editarPedido(app, req, res);
+  })
   app.get('/getPedido', autenticacao, (req, res, next) => {
     app.app.controllers.pedidosC.getPedido(app, req, res);
   })
   app.get('/getPedidosMaisRecentes', autenticacao, (req, res, next) => {
     app.app.controllers.pedidosC.getPedidosMaisRecentes(app, req, res);
   })
-  app.put('/editarPedido/:id', autenticacao, (req, res) => {
-    app.app.controllers.pedidosC.editarPedido(app, req, res);
+
+  app.post('/criarPedidoProduto', autenticacao, (req, res) => {
+    app.controllers.pedidosC.criarPedidoProduto(app, req, res);
   })
 
   app.post('/enviarMensagem', (req, res) => {

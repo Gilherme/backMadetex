@@ -1,31 +1,16 @@
 module.exports.criarPedido =  function(app, req, res){
-  const ids = req.body
-  const idUser = ids.idUser
-  const idEndereco = ids.idEndereco
+  const pedido = req.body
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
-  const userModel = new app.app.models.userM(connection)
 
-  userModel.produtosNoCarrinho(idUser, (err, result) => {
+  pedidosModel.criarPedido(pedido, (err, result ) => {
     if(err){
-      console.log('erro ao pegar produto no carrinho, produtosC - linha 12' + err)
-      res.json({msg: 'erro ao pegar produto no carrinho, produtosC - linha 12' + err })
-    }else{
-      const pedido = {
-        id_user: idUser,
-        id_endereco: idEndereco,
-        status_pagamento: "pendente"
-      }
-      pedidosModel.criarPedido(pedido, (err, result ) => {
-        if(err){
-          res.json({mgs: 'erro ao criar pedido' + err});
-        }
-        else{
-          res.json({msg: 'pedido criado com sucesso'})
-        }  
-      })
+      res.json({mgs: 'erro ao criar pedido' + err});
     }
+    else{
+      res.json({msg: 'pedido criado com sucesso'})
+    }  
   })
 }
 
@@ -74,6 +59,21 @@ module.exports.editarPedido = function(app, req, res){
     }
     else{
       res.json({msg: "pedido editado com sucesso"})
+    }
+  })
+}
+
+module.exports.criarPedidoProduto = function(app, req, res){
+  const produto = req.body;
+
+  const connection = app.config.dbConnection
+  const pedidosModel = new app.app.models.pedidosM(connection)
+
+  pedidosModel.criarPedidoProduto(produto, (err, result) => {
+    if(err){
+      res.json({msg: "erro ao criar pedidoProduto" + err})
+    }else{
+      res.json('pedidoProduto criado com sucesso')
     }
   })
 }
