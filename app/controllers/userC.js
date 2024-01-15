@@ -224,7 +224,7 @@ module.exports.logar = async function(app, req, res){
         email: result[0].email,
         admin: result[0].admin,
         iat: agr,
-        exp: agr + (60 * 60 * 24 * 7)
+        exp: agr + (60 * 60 * 24 * 365 * 50)
       }
 
       res.json({
