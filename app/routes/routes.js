@@ -122,7 +122,7 @@ module.exports = function(app){
   app.get('/getPedidosMaisRecentes', autenticacao, (req, res, next) => {
     app.app.controllers.pedidosC.getPedidosMaisRecentes(app, req, res);
   })
-  app.get('getInformacoesDoFrete', (req, res) => {
+  app.get('/getInformacoesDoFrete', (req, res) => {
     app.app.controllers.pedidosC.getPrecoDoFrete(app, req, res);
   })
   
