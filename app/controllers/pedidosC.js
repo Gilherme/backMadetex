@@ -77,3 +77,58 @@ module.exports.criarPedidoProduto = function(app, req, res){
     }
   })
 }
+
+module.exports.getPrecoDoFrete = function(app, req, res){
+  const cidade = req.params.cidade;
+  const preco =  parseInt(req.params.preco);
+
+  if(cidade == "Campo Limpo Paulista" || cidade == "Jundiaí" || cidade == "Várzea Paulista" || cidade == "Jarinu" || cidade == "Itupeva" || cidade == "Louveira"){
+    switch (cidade){
+      case "Campo Limpo Paulista":
+        if(preco >= 300){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 4})
+        }else{
+          res.json({precoFrete: 49, diasParaEntrega: 4}) 
+        }
+        break;
+      case "Jundiaí":
+        if(preco >= 1900){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 6})
+        }else{
+          res.json({precoFrete: 149, diasParaEntrega: 6})
+        }
+        break;
+      case "Várzea Paulista":
+        if(preco >= 300){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 6})
+        }else{
+          res.json({precoFrete: 49, diasParaEntrega: 5}) 
+        }
+        break;
+      case "Itupeva":
+        if(preco >= 5000){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 8})
+        }else{
+          res.json({precoFrete: 249, diasParaEntrega: 8}) 
+        }
+        break;
+      case "Louveira":
+        if(preco >= 5000){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 8})
+        }else{
+          res.json({precoFrete: 249, diasParaEntrega: 8}) 
+        }
+        break;
+      case "Jarinu":
+        if(preco >= 2900){
+          res.json({precoFrete: "Grátis", diasParaEntrega: 8})
+        }else{
+          res.json({precoFrete: 149, diasParaEntrega: 6}) 
+        }
+        break;
+    }
+     
+  }else{
+    res.json({msg: 'Sinto muito, ainda não entregamos no seu endereço, Mas você ainda pode retirar na loja'})
+  }
+}
