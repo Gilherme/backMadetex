@@ -79,7 +79,7 @@ module.exports.criarPedidoProduto = function(app, req, res){
 }
 
 module.exports.getPrecoDoFrete = function(app, req, res){
-  const cidade = req.params.cidade.trim();
+  const cidade = req.params.cidade;
   const preco =  parseInt(req.params.preco);
 
   if(cidade == "Campo Limpo Paulista"){
