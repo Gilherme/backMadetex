@@ -82,21 +82,21 @@ module.exports.getPrecoDoFrete = function(app, req, res){
   const cidade = req.params.cidade;
   const preco =  parseInt(req.params.preco);
 
-  if(cidade == "Campo Limpo Paulista"){
+  if(cidade === "Campo Limpo Paulista"){
     if(preco >= 300){
       res.json({precoFrete: "Grátis", diasParaEntrega: 4})
     }else{
       res.json({precoFrete: 49, diasParaEntrega: 4}) 
     }
   }
-  if(cidade == "Jundiaí"){
+  if(cidade == "Jundiai"){
     if(preco >= 1900){
       res.json({precoFrete: "Grátis", diasParaEntrega: 6})
     }else{
       res.json({precoFrete: 149, diasParaEntrega: 6})
     }
   }
-  if(cidade == "Várzea Paulista"){
+  if(cidade == "Varzea Paulista"){
     if(preco >= 300){
       res.json({precoFrete: "Grátis", diasParaEntrega: 6})
     }else{
@@ -125,6 +125,6 @@ module.exports.getPrecoDoFrete = function(app, req, res){
     }
   }   
   else{
-    res.json({msg: 'Sinto muito, ainda não entregamos no seu endereço, Mas você ainda pode retirar na loja'})
+    res.json({msg: 'Sinto muito, ainda não entregamos no seu endereço, Mas você ainda pode retirar na loja', cidade: cidade, preco: preco})
   }
 }
