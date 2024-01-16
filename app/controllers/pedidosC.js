@@ -123,7 +123,14 @@ module.exports.getPrecoDoFrete = function(app, req, res){
     }else{
       res.json({precoFrete: 249, diasParaEntrega: 8}) 
     }
-  }   
+  }  
+  if(cidade == "Atibaia"){
+    if(preco >= 1900){
+      res.json({precoFrete: "Grátis", diasParaEntrega: 6})
+    }else{
+      res.json({precoFrete: 149, diasParaEntrega: 6}) 
+    }
+  } 
   else{
     res.json({msg: 'Sinto muito, ainda não entregamos no seu endereço, Mas você ainda pode retirar na loja', cidade: cidade, preco: preco})
   }
