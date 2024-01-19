@@ -19,42 +19,15 @@ const client = new mercadopago.MercadoPagoConfig({
 });
 
 
-module.exports.processarPagamento = function (app, req, res){
-  const { body } = req;
-  const { payer } = body;
-
-  const payment = new mercadopago.Payment(client);
-
-  const paymentData = {
-    transaction_amount: Number(body.transactionAmount),
-    token: body.token,
-    description: body.description,
-    installments: Number(body.installments),
-    payment_method_id: body.paymentMethodId,
-    issuer_id: body.issuerId,
-    payer: {
-      email: payer.email,
-      identification: {
-        type: payer.identification.docType,
-        number: payer.identification.docNumber,
-      },
+module.exports.processarPagamento = async function (app, req, res){
+  let reqs = await fetch("https://sandbox.api.pagseguro.com/charges", {
+    method: "POST",
+    headers:{
+      'Autorization': 'BF5B7FCB05EB4538B1F04710AFCD6BAE',
+      'Content-Type': 'application/json'
     },
-  };
-
-  payment
-    .create({ body: paymentData })
-    .then(function (data) {
-      res.status(201).json({
-        detail: data.status_detail,
-        status: data.status,
-        id: data.id,
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-      const { errorMessage, errorStatus } = validateError(error);
-      res.status(errorStatus).json({ error_message: errorMessage });
-    });
+    body: JSON.stringify()
+  })
 }
 
 function validateError(error) {

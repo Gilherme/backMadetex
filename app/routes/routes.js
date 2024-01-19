@@ -177,7 +177,7 @@ module.exports = function(app){
     app.app.controllers.configC.todasAsChaves(app, req, res, next);
   })
 
-  app.post('/process_payment', autenticacao, (req, res, next) => {
+  app.get('/process_payment', autenticacao, (req, res, next) => {
     app.app.controllers.pag.processarPagamento(app, req, res, next)
   })
 }

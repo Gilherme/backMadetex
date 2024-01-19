@@ -73,7 +73,7 @@ module.exports.criarPedidoProduto = function(app, req, res){
     if(err){
       res.json({msg: "erro ao criar pedidoProduto" + err})
     }else{
-      res.json('pedidoProduto criado com sucesso')
+      res.json({msg: 'pedidoProduto criado com sucesso'})
     }
   })
 }

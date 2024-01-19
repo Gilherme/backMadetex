@@ -20,7 +20,8 @@ function enviarEmailDeVerificacao(email, token){
       Body: {
         Text: {
           Data: `Ficamos felizes ter você como cliente!!
-          click no link: ${link} para verificar seu email` ,
+          click no link abaixo para verificar seu email 
+          ${link}` ,
         },
       },
       Subject: {
