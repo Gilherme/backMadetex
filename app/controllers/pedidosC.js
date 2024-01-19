@@ -71,7 +71,7 @@ module.exports.criarPedidoProduto = function(app, req, res){
 
   pedidosModel.criarPedidoProduto(produto, (err, result) => {
     if(err){
-      res.json({msg: "erro ao criar pedidoProduto" + err})
+      res.json({msg: "erro ao criar pedidoProduto", error: err})
     }else{
       res.json({msg: 'pedidoProduto criado com sucesso'})
     }
