@@ -359,6 +359,17 @@ module.exports.ApagarItemNoCar = function(app, req, res){
     res.json({msg: "produto removido do carrinho com sucesso"})
   })
 }
+module.exports.esvaziarCarrinho = function(app, req, res){
+  const idUser = req.params.id
+  
+  let connection = app.config.dbConnection
+  let carrinhoModel = new app.app.models.userM(connection)
+
+  carrinhoModel.esvaziarCarrinho(idUser, function(err, result){
+    if(err) throw err
+    res.json({msg: "carrinho esvaziado"})
+  })
+}
 
 module.exports.adicionarEndereco = function(app, req, res){
   const endereco = req.body
@@ -443,42 +454,4 @@ module.exports.apagarEndereco = function(app, req, res){
     if(err) throw err
     res.json({msg: "Endereço excluido com sucesso"})
   })
-}
-
-function precoFrete(loja, city) {
-  const campoLimpo = ['Jundiaí', 'Campo Limpo Paulista', 'Várzea Paulista', 'Jarinu']
-  const jundiai = ['Jundiaí','Várzea Paulista', "Itupeva", "Louveira", "Louveira"]
-  const itupeva = ['Jundiaí', "Itupeva",  "Louveira", "Cabreúva"]
-  const mogi = ["Mogi Mirim", "Mogi Guaçu", "Itapira"]
-
-
-  if (loja == 'Madetex Itupeva') {
-    for (let i = 0; i < itupeva.length; i++) {
-      if (itupeva[i] == city) {
-        return true;
-      }
-    }
-  }
-  if (loja == 'Madetex Jundiaí' || loja === 'Madetex Jundiai' ) {
-    for (let i = 0; i < jundiai.length; i++) {
-      if (jundiai[i] == city) {
-        return true;
-      }
-    }
-  }
-  if (loja == 'Madetex Mogi Mirim') {
-    for (let i = 0; i < mogi.length; i++) {
-      if (mogi[i] == city) {
-        return true;
-      }
-    }
-  }
-  if (loja == 'Madetex Campo Limpo Pta') {
-    for (let i = 0; i < campoLimpo.length; i++) {
-      if (campoLimpo[i] == city) {
-        return true;
-      }
-    }
-  }
-  return false;
 }

@@ -97,6 +97,9 @@ module.exports = function(app){
   app.delete('/apagarItemNoCarrinho/:id', autenticacao, (req, res) =>{
     app.app.controllers.userC.ApagarItemNoCar(app, req, res);
   })
+  app.delete('/esvaziarCarrinho/:id', autenticacao, (req, res) =>{
+    app.app.controllers.userC.esvaziarCarrinho(app, req, res);
+  })
   app.put('/editarItemNoCarrinho/:id', autenticacao, (req, res) =>{
     app.app.controllers.userC.editarItemNoCar(app, req, res);
   })

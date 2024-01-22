@@ -36,6 +36,9 @@ user.prototype.produtosNoCarrinho = function(usuarioId, callback){
 user.prototype.apagarItemNoCarrinho = function(id, callback){
   this._connection.query('DELETE FROM carrinho WHERE id = ?', [id], callback)
 }
+user.prototype.esvaziarCarrinho = function(id, callback){
+  this._connection.query('DELETE FROM carrinho WHERE usuario_ID = ?', [id], callback)
+}
 user.prototype.editarItemNoCarrinho = function(produtoAtualizado, id, callback){
   this._connection.query('UPDATE carrinho SET ? WHERE id = ?', [produtoAtualizado, id], callback)
 }
