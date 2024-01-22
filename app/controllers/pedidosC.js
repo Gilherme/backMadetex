@@ -64,16 +64,16 @@ module.exports.editarPedido = function(app, req, res){
 }
 
 module.exports.criarPedidoProduto = function(app, req, res){
-  const produto = req.body;
+  const produto = req.body
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
 
   pedidosModel.criarPedidoProduto(produto, (err, result) => {
     if(err){
-      res.json({msg: "erro ao criar pedidoProduto", error: err})
+  res.json({"msg": "erro ao criar pedidoProduto", "error":  err, "produto": produto, "result": result})
     }else{
-      res.json({msg: 'pedidoProduto criado com sucesso'})
+      res.json({msg: "pedidoProduto criado com sucesso"})
     }
   })
 }
