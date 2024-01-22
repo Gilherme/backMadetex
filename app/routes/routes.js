@@ -127,7 +127,7 @@ module.exports = function(app){
   })
   
   app.post('/criarPedidoProduto', autenticacao, (req, res) => {
-    app.controllers.pedidosC.criarPedidoProduto(app, req, res);
+    app.app.controllers.pedidosC.criarPedidoProduto(app, req, res);
   })
 
   app.post('/enviarMensagem', (req, res) => {
