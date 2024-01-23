@@ -23,7 +23,7 @@ pedido.prototype.criarPedidoProduto = function(produto, callback){
 }
 
 pedido.prototype.getProdutosDoPedido = function(id, callback){
-  req.query('SELECT * FROM pedido_produto WHERE pedido_id = ?', [id], callback);
+  this._connection.query('SELECT * FROM pedido_produto WHERE pedido_id = ?', [id], callback);
 }
 
 module.exports = function(){
