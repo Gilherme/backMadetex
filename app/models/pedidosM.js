@@ -22,6 +22,10 @@ pedido.prototype.criarPedidoProduto = function(produto, callback){
   this._connection.query('insert into pedido_produto set ?', produto, callback)
 }
 
+pedido.prototype.getProdutosDoPedido = function(id, callback){
+  req.query('SELECT * FROM pedido_produto WHERE pedido_id = ?', [id], callback)
+}
+
 module.exports = function(){
   return pedido
 }

@@ -129,6 +129,9 @@ module.exports = function(app){
     app.app.controllers.pedidosC.getPrecoDoFrete(app, req, res);
   })
   
+  app.get('/getProdutosDoPedido', autenticacao, (req, res) => {
+    app.app.controllers.pedidosC.getProdutosDoPedido(app, req, res);
+  })
   app.post('/criarPedidoProduto', autenticacao, (req, res) => {
     app.app.controllers.pedidosC.criarPedidoProduto(app, req, res);
   })

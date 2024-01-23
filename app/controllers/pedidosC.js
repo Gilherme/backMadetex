@@ -71,9 +71,24 @@ module.exports.criarPedidoProduto = function(app, req, res){
 
   pedidosModel.criarPedidoProduto(produto, (err, result) => {
     if(err){
-  res.json({"msg": "erro ao criar pedidoProduto", "error":  err})
+    res.json({"msg": "erro ao criar pedidoProduto", "error":  err})
     }else{
       res.json({msg: "pedidoProduto criado com sucesso"})
+    }
+  })
+}
+
+module.exports.getProdutosDoPedido = function(app, req, res){
+  const id = req.query.idProduto;
+
+  const connection = app.config.dbConnection
+  const pedidosModel = new app.app.models.pedidosM(connection)
+
+  pedidosModel.getProdutosDoPedido(id, (err, result) => {
+    if(err){
+      res.json("erro em pegar os produtos do pedido" + err)
+    }else{
+      res.json(result)
     }
   })
 }
