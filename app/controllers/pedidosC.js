@@ -79,7 +79,7 @@ module.exports.criarPedidoProduto = function(app, req, res){
 }
 
 module.exports.getProdutosDoPedido = function(app, req, res){
-  const id = req.query.idProduto;
+  const id = req.query.idPedido;
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
