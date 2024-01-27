@@ -36,6 +36,16 @@ module.exports = function(app){
     res.json({msg: 'Amigo estou aqui'})
   })
 
+  app.get('/getUltimosPedidos', autenticacao, autorizacao, (req, res, next) => {
+    app.app.controllers.pedidosC.getUltimosPedidos(app, req, res, next)
+  })
+  app.get('/getPedidosPorStatus', autenticacao, autorizacao, (req, res, next) => {
+    app.app.controllers.pedidosC.getPedidosPorStatus(app, req, res, next);
+  })
+  app.put('/editarPedido', autenticacao, autorizacao, (req, res, next) => {
+    app.app.controllers.pedidosC.editarPedido(app, req, res, next);
+  })
+
   // Controle
   app.delete('/DELproduto/:id', autenticacao, autorizacao, (req, res, next) => {
     app.app.controllers.produtosC.apagarProduto(app, req, res)

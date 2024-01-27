@@ -28,7 +28,35 @@ module.exports.getPedido = function(app, req, res){
     }
   })
 }
+module.exports.getUltimosPedidos = function(app, req, res){
+  const limit = parseInt(req.query.limit)
 
+  const connection = app.config.dbConnection
+  const pedidosModel = new app.app.models.pedidosM(connection)
+  
+  pedidosModel.getUltimosPedidos(limit, (err, result) => {
+    if(err){
+      res.json({msg: "erro ao encontrar pedidos", "erro": err})
+    }else{
+      res.json(result)
+    }
+  })
+}
+module.exports.getPedidosPorStatus = function(app, req, res){
+  const limit = parseInt(req.query.limit);
+  const status = req.query.staus;
+
+  const connection = app.config.dbConnection
+  const pedidosModel = new app.app.models.pedidosM(connection)
+  
+  pedidosModel.getPedidosPorStatus(status, limit, (err, result) => {
+    if(err){
+      res.json({msg: "erro ao encontrar pedidos", "erro": err})
+    }else{
+      res.json(result)
+    }
+  })
+}
 module.exports.getPedidosMaisRecentes = function(app, req, res){
   const idUser = req.query.idUser
   const limit = parseInt(req.query.limit)
@@ -45,8 +73,23 @@ module.exports.getPedidosMaisRecentes = function(app, req, res){
   })
 }
 
+module.exports.criarPedido =  function(app, req, res){
+  const pedido = req.body
+
+  const connection = app.config.dbConnection
+  const pedidosModel = new app.app.models.pedidosM(connection)
+
+  pedidosModel.criarPedido(pedido, (err, result ) => {
+    if(err){
+      res.json({mgs: 'erro ao criar pedido' + err});
+    }
+    else{
+      res.json({msg: 'pedido criado com sucesso'})
+    }  
+  })
+}
 module.exports.editarPedido = function(app, req, res){
-  const id = req.params.id;
+  const id = req.headers.id;
   const pedido = req.body;
 
   const connection = app.config.dbConnection
@@ -61,8 +104,7 @@ module.exports.editarPedido = function(app, req, res){
       res.json({msg: "pedido editado com sucesso"})
     }
   })
-}
-               
+}           
 module.exports.criarPedidoProduto = function(app, req, res){
   const produto = req.body
 
