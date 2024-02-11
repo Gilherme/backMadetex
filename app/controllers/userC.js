@@ -40,6 +40,37 @@ function enviarEmailDeVerificacao(email, token){
   });
 }
 
+function enviarEmailDeNotificacao(email){
+  const link = `https://www.madetex.com.br/src/views/user/alterarSenhaTwo.html/?token=${token}&email=${email}`
+  const ses = new AWS.SES();
+
+  const params = {
+    Destination: {
+      ToAddresses: [`guibarreto64042@gmail.com`],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: `Usuario novo!! 
+
+           ${email}`,
+        },
+      },
+      Subject: {
+        Data: 'Madetex - Recuperar conta',
+      },
+    },
+    Source: 'madetex@madetex.com.br',
+  };
+
+  ses.sendEmail(params, (err, data) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+    }
+  });
+}
+
 function enviarEmailDerecuperacao(email, token){
   const link = `https://www.madetex.com.br/src/views/user/alterarSenhaTwo.html/?token=${token}&email=${email}`
   const ses = new AWS.SES();
@@ -126,6 +157,7 @@ module.exports.cadastrarUsuario  = function(app, req, res){
           else{
             res.status(200).json({msg: 'Usuario cadastrado com sucesso'})
             enviarEmailDeVerificacao(usuario.email, usuario.token)
+            enviarEmailDeNotificacao(usuario.email)
           }   
       })
      
