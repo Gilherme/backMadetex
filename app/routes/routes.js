@@ -36,6 +36,7 @@ module.exports = function(app){
     res.json({msg: 'Amigo estou aqui'})
   })
 
+  // PEDIDOS
   app.get('/getUltimosPedidos', autenticacao, autorizacao, (req, res, next) => {
     app.app.controllers.pedidosC.getUltimosPedidos(app, req, res, next)
   })
@@ -57,6 +58,7 @@ module.exports = function(app){
     app.app.controllers.produtosC.editarProduto(app, req, res,)
   })
 
+  //Produtos
   app.get('/produto', (req, res, next) => {
     app.app.controllers.produtosC.getProduto(app, req, res, next)
   })
@@ -96,11 +98,8 @@ module.exports = function(app){
   app.get('/homeLoja', (req, res) => {
     app.app.controllers.lojasC.getDasosLoja(app, req, res)
   })
-  app.get('/todasAsLojas', (req, res) => {
-    app.app.controllers.lojasC.getTodasAsLojas(app, req, res)
-  })
-
   
+  // CARRINHO
   app.post('/adicionarAoCarrinho', autenticacao, (req, res) => {
     app.app.controllers.userC.adicionarAoCarrinho(app, req, res);
   })
@@ -123,6 +122,7 @@ module.exports = function(app){
     app.app.controllers.userC.getProdutosNoCarComFrete(app, req, res);
   })
 
+  //PEDIDO
   app.post('/criarPedido', autenticacao, (req, res) => {
     app.app.controllers.pedidosC.criarPedido(app, req, res);
   })
@@ -153,6 +153,7 @@ module.exports = function(app){
     app.app.controllers.contatoC.getMensagem(app, req, res);
   })
 
+
   app.post('/login', (req, res) => {
     app.app.controllers.userC.logar(app, req, res);
   })
@@ -167,6 +168,9 @@ module.exports = function(app){
   })
   app.get('/recuperacaoDeConta', (req, res) => {
     app.app.controllers.userC.recuperacaoDeConta(app, req, res);
+  })
+  app.get('/dadosDoUsuario', autenticacao, (req, res) => {
+    app.app.controllers.userC.dadosDoUsuario(app, req, res);
   })
   app.put('/alterarSenha', (req, res) => {
     app.app.controllers.userC.alterarSenha(app, req, res);

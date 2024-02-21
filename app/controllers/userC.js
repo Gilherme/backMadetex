@@ -267,8 +267,8 @@ module.exports.logar = async function(app, req, res){
     }
   })
 }
-module.exports.getUserPorId = function(app, req, res){
-  const id = req.query.id
+module.exports.dadosDoUsuario = function(app, req, res){
+  const id = req.headers.id
 
   let connection = app.config.dbConnection
   let userModel = new app.app.models.userM(connection)

@@ -73,21 +73,7 @@ module.exports.getPedidosMaisRecentes = function(app, req, res){
   })
 }
 
-module.exports.criarPedido =  function(app, req, res){
-  const pedido = req.body
 
-  const connection = app.config.dbConnection
-  const pedidosModel = new app.app.models.pedidosM(connection)
-
-  pedidosModel.criarPedido(pedido, (err, result ) => {
-    if(err){
-      res.json({mgs: 'erro ao criar pedido' + err});
-    }
-    else{
-      res.json({msg: 'pedido criado com sucesso'})
-    }  
-  })
-}
 module.exports.editarPedido = function(app, req, res){
   const id = req.headers.id;
   const pedido = req.body;
