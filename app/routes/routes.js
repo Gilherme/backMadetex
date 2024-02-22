@@ -157,7 +157,7 @@ module.exports = function(app){
   app.post('/login', (req, res) => {
     app.app.controllers.userC.logar(app, req, res);
   })
-  app.put('/editarUsuario', autorizacao, (req, res) => {
+  app.put('/editarUsuario', autenticacao, (req, res) => {
     app.app.controllers.userC.editarUsuario(app, req, res);
   })
   app.post('/cadastrarUsuario', (req, res) => {
