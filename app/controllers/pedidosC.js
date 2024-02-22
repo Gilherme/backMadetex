@@ -14,13 +14,13 @@ module.exports.criarPedido =  function(app, req, res){
   })
 }
 
-module.exports.getPedido = function(app, req, res){
+module.exports.getPedidoPorUsuario = function(app, req, res){
   const idUser = req.query.idUser
 
   const connection = app.config.dbConnection
   const pedidosModel = new app.app.models.pedidosM(connection)
   
-  pedidosModel.getPedido(idUser, (err, result) => {
+  pedidosModel.getPedidoPorUsuario(idUser, (err, result) => {
     if(err){
       res.json({msg: "erro ao encontrar pedido", "erro": err})
     }else{
@@ -72,7 +72,6 @@ module.exports.getPedidosMaisRecentes = function(app, req, res){
     }
   })
 }
-
 
 module.exports.editarPedido = function(app, req, res){
   const id = req.headers.id;

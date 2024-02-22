@@ -5,7 +5,7 @@ function pedido(connection){
 pedido.prototype.criarPedido = function(pedido, callback) {
   this._connection.query('insert into pedidos set ?', pedido, callback)
 }
-pedido.prototype.getPedido = function(idUser, callback) {
+pedido.prototype.getPedidoPorUsuario = function(idUser, callback) {
   this._connection.query('SELECT * FROM pedidos WHERE id_user = ?', [idUser], callback);
 }
 pedido.prototype.getUltimosPedidos = function(limit, callback) {
