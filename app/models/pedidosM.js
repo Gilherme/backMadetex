@@ -28,6 +28,21 @@ pedido.prototype.getProdutosDoPedido = function(id, callback){
   this._connection.query('SELECT * FROM pedido_produto WHERE pedido_id = ?', [id], callback);
 }
 
+// presencial
+pedido.prototype.criarPedidoPresencial = function(pedido, callback) {
+  this._connection.query('insert into pedidos_presencial set ?', pedido, callback)
+}
+pedido.prototype.getPedidoPresencialPorId = function(id, callback) {
+  this._connection.query('SELECT * FROM pedidos_presencial WHERE id = ?', [id], callback);
+}
+pedido.prototype.getPedidosPresencial = function(limit, callback) {
+  this._connection.query('SELECT * FROM pedidos ORDER BY data DESC limit ?', [limit], callback);
+}
+pedido.prototype.editarPedidoPresencial = function(id, pedido, callback){
+  this._connection.query('UPDATE pedidos SET ? WHERE id = ?', [pedido, id], callback)
+}
+
+
 module.exports = function(){
   return pedido
 }

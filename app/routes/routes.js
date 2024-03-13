@@ -147,6 +147,20 @@ module.exports = function(app){
     app.app.controllers.pedidosC.criarPedidoProduto(app, req, res);
   })
 
+  // Pedido presencial
+  app.post('/criarPedidoPresencial', autenticacao, autorizacao, (req, res) => {
+    app.app.controllers.pedidosC.criarPedidoPresencial(app, req, res);
+  })
+  app.get('/getPedidosPresencialPorId', autenticacao, autorizacao, (req, res, next) => {
+    app.app.controllers.pedidosC.getPedidoPresencialPorId(app, req, res);
+  })
+  app.get('/getPedidosPresenciais', autenticacao, autorizacao, (req, res, next) => {
+    app.app.controllers.pedidosC.getPedidosPresencial(app, req, res);
+  })
+  app.put('/editarPedidoPresencial/:id', autenticacao, autorizacao, (req, res) => {
+    app.app.controllers.pedidosC.editarPedidoPresencial(app, req, res);
+  })
+
   app.post('/enviarMensagem', (req, res) => {
     app.app.controllers.contatoC.enviarMensagem(app, req, res);
   })
