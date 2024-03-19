@@ -9,7 +9,7 @@ module.exports.todasAsChaves = function(app, req, res){
     res.json(result)
   }); 
 }
-module.exports.chavesPesquisa = function(app, req, res){
+module.exports.chavesPesquisa = function(app, req, res, next){
 
   let connection = app.config.dbConnection
   let configModel = new app.app.models.configM(connection)
