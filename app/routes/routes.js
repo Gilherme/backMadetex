@@ -211,8 +211,8 @@ module.exports = function(app){
   app.get('/TodasAsChaves', (req, res, next) => {
     app.app.controllers.configC.todasAsChaves(app, req, res, next);
   })
-  app.get('/chavesPesquisa', (req, res, next) => {
-    app.app.controllers.configC.chavesPesquisa(app, req, res, next);
+  app.get('/chavesPesquisa', (req, res) => {
+    app.app.controllers.configC.chavesPesquisa(app, req, res);
   })
 
   app.get('/process_payment', autenticacao, (req, res, next) => {
